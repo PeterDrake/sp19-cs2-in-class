@@ -1,7 +1,7 @@
 public class MineSweeper {
     public static void main(String[] args) {
-      StdDraw.enableDoubleBuffering();
-       int gridWidth=8;
+        StdDraw.enableDoubleBuffering();
+        int gridWidth = 8;
         boolean[][] grid = createGrid(gridWidth);
         boolean[][] revealed = new boolean[gridWidth][gridWidth];
         revealed[2][3] = true;
@@ -12,10 +12,10 @@ public class MineSweeper {
             int[] click = getMouseClick(grid.length);
             StdOut.println(click[0]);
             StdOut.println(click[1]);
-            int r=click[0];
-            int c=click[1];
-            revealed[r][c]=true;
-            drawGrid(grid,revealed);
+            int r = click[0];
+            int c = click[1];
+            revealed[r][c] = true;
+            drawGrid(grid, revealed);
         }
     }
 
@@ -98,11 +98,11 @@ public class MineSweeper {
     }
 
     static boolean allSafeSquaresRevealed(boolean[][] grid, boolean[][] revealed) {
-        for (int i = 0; i <grid.length; i++) {
-            for (int j = 0; j <grid.length ; j++) {
-            if(!grid[i][j]&&!revealed[i][j]){
-                return false;
-            }
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                if (!grid[i][j] && !revealed[i][j]) {
+                    return false;
+                }
             }
         }
         return true;
