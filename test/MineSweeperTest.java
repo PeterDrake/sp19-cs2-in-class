@@ -38,4 +38,13 @@ class MineSweeperTest {
         revealed[0][1]=false;
         assertTrue(MineSweeper.allSafeSquaresRevealed(grid,revealed));
     }
+    @Test
+    void recognizesLoss(){
+        boolean[][] grid = new boolean[3][3];
+        grid[0][1]=true;
+        grid[2][2]=true;
+        boolean[][] revealed=new boolean[3][3];
+        revealed[0][1]=true;
+        assertTrue(MineSweeper.anyMineRevealed(grid,revealed));
+    }
 }
