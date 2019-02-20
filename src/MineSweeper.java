@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 public class MineSweeper {
     public static void main(String[] args) {
         StdDraw.enableDoubleBuffering();
-        int gridWidth = 4; //Must be at least 4
+        int gridWidth = 8; //Must be at least 4
         boolean[][] grid = createGrid(gridWidth);
         boolean[][] revealed = new boolean[gridWidth][gridWidth];
         boolean[][] flagged = new boolean[gridWidth][gridWidth];
@@ -16,17 +16,36 @@ public class MineSweeper {
             int c = click[1];
             int type = click[2];
             if (type == 0) {
-                revealed[r][c] = true;
-            }
-            else {
+                reveal(grid, revealed, r, c);
+            } else {
                 flagged[r][c] = true;
             }
             drawGrid(grid, revealed, flagged);
         }
     }
 
-    /** Waits for a mouse click and returns an array of 3 ints, the first two are the row and column,
-     * the third is 0 for a regular click, 1 for a control click. */
+    static void reveal(boolean[][] grid, boolean[][] revealed, int r, int c) {
+        if (!revealed[r][c]) {
+            revealed[r][c] = true;
+            if (!grid[r][c] && countNeighboringMines(r, c, grid) == 0) {
+                int[][] neighbors = {{r - 1, c - 1}, {r - 1, c}, {r - 1, c + 1}, {r, c - 1}, {r, c + 1}, {r + 1, c - 1}, {r + 1, c}, {r + 1, c + 1}};
+                for (int i = 0; i < neighbors.length; i++) {
+                    int row = neighbors[i][0];
+                    int col = neighbors[i][1];
+                    if (row >= 0 && row < grid.length && col >= 0 && col < grid.length) {
+                        reveal(grid, revealed, row, col);
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    /**
+     * Waits for a mouse click and returns an array of 3 ints, the first two are the row and column,
+     * the third is 0 for a regular click, 1 for a control click.
+     */
     static int[] getMouseClick(int gridWidth) {
         while (!StdDraw.isMousePressed()) {
             //wait for mouse click
@@ -60,7 +79,7 @@ public class MineSweeper {
         return count;
     }
 
-    static void drawGrid(boolean[][] grid, boolean[][] revealed, boolean [][] flagged) {
+    static void drawGrid(boolean[][] grid, boolean[][] revealed, boolean[][] flagged) {
         StdDraw.clear();
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid.length; c++) {
@@ -86,10 +105,9 @@ public class MineSweeper {
             }
         }
         if (allSafeSquaresRevealed(grid, revealed)) {
-            StdDraw.text((grid.length-1)/2.0, (grid.length-1)/2.0, "You win!");
-        }
-        else if (anyMineRevealed(grid, revealed)){
-            StdDraw.text((grid.length-1)/2.0, (grid.length-1)/2.0, "You lose.");
+            StdDraw.text((grid.length - 1) / 2.0, (grid.length - 1) / 2.0, "You win!");
+        } else if (anyMineRevealed(grid, revealed)) {
+            StdDraw.text((grid.length - 1) / 2.0, (grid.length - 1) / 2.0, "You lose.");
         }
         StdDraw.show();
     }
@@ -109,7 +127,7 @@ public class MineSweeper {
 
     static boolean[][] createGrid(int w) {
         boolean[][] grid = new boolean[w][w];
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             int row = StdRandom.uniform(grid.length);
             int column = StdRandom.uniform(grid.length);
             if (grid[row][column]) {

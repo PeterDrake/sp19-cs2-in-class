@@ -10,6 +10,27 @@ class MineSweeperTest {
     }
 
     @Test
+    void revealsAllSafeSquares() {
+
+        boolean[][] grid = new boolean[4][4];
+        grid[0][1] = grid[1][3] = true;
+        boolean[][] revealed = new boolean[4][4];
+        MineSweeper.reveal(grid, revealed, 3, 2);
+        boolean[][] correct = {
+                {false, false, false, false},
+                {true, true, true, false},
+                {true, true, true, true},
+                {true, true, true, true}};
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                assertEquals(correct[i][j], revealed[i][j]);
+            }
+
+        }
+
+    }
+
+    @Test
     void countNeighboringMinesWorksInMiddleOfGrid() {
         boolean[][] grid = new boolean[3][3];
         grid[0][1]=true;
