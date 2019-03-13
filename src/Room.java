@@ -1,29 +1,35 @@
-public class Room {
-    String name;
-    String description;
-    String[] exits;
-    Room[] neighbors;
-    int exitCount;
+import java.util.HashMap;
 
-    Room(String n, String d, int numberOfExits){
+public class Room {
+    private String name;
+    private String description;
+    private HashMap<String,Room> exits;
+
+    public Room(String n, String d){
         this.name = n;
         this.description = d;
-        this.exits = new String[numberOfExits];
-        this.neighbors = new Room[numberOfExits];
+        this.exits = new HashMap<String, Room>();
+
     }
 
-    void addExit(String direction, Room e) {
-        exits[exitCount] = direction;
-        neighbors[exitCount] = e;
-        exitCount++;
+    public void addExit(String direction, Room e) {
+        exits.put(direction,e);
     }
 
-    Room getExit(String direction) {
-        for (int i = 0; i < exits.length; i++) {
-            if (exits[i].equals(direction)){
-                return neighbors[i];
-            }
-        }
-        return null;
+    public String getName() {
+        return name;
+    }
+
+    public Room getExit(String direction) {
+        return exits.get(direction);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String toString(){
+        return name;
     }
 }
