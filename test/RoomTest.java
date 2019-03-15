@@ -18,4 +18,12 @@ class RoomTest {
         assertEquals(e, r.getExit("south"));
     }
 
+    @Test
+    void remembersTreasure() {
+        Room r = new Room("Hall", "It's a hall...");
+        r.addTreasure(new Treasure("diamond"));
+        String correct = "It's a hall...\nThere's a diamond here\n";
+        assertEquals(correct, r.getDescription());
+    }
+
 }

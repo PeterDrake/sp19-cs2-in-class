@@ -4,6 +4,7 @@ public class Room {
     private String name;
     private String description;
     private HashMap<String,Room> exits;
+    private Treasure treasure;
 
     public Room(String n, String d){
         this.name = n;
@@ -25,11 +26,27 @@ public class Room {
     }
 
     public String getDescription() {
-        return description;
+        String result = description + "\n";
+        if (treasure != null) {
+            result += "There's a " + treasure.getName() + " here\n";
+        }
+        return result;
     }
 
     @Override
     public String toString(){
         return name;
+    }
+
+    public void addTreasure(Treasure t) {
+        treasure = t;
+    }
+
+    public void setTreasure(Treasure treasure) {
+        this.treasure = treasure;
+    }
+
+    public Treasure getTreasure() {
+        return treasure;
     }
 }
