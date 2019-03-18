@@ -26,4 +26,12 @@ class RoomTest {
         assertEquals(correct, r.getDescription());
     }
 
+    @Test
+    void remembersMonster(){
+        Room r = new Room("Hall", "It's a hall...");
+        r.addTreasure(new Treasure("diamond"));
+        r.addMonster(new Monster("dragon", 3));
+        String correct = "It's a hall...\nThere's a diamond here\nThere's a dragon here\n";
+        assertEquals(correct, r.getDescription());
+    }
 }
