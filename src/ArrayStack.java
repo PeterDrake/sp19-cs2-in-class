@@ -1,4 +1,6 @@
-public class ArrayStack<T> implements Stack<T> {
+import java.util.Iterator;
+
+public class ArrayStack<T> implements Stack<T>, Iterable<T> {
 
     private T[] data;
 
@@ -42,11 +44,43 @@ public class ArrayStack<T> implements Stack<T> {
     }
 
     public static void main(String[] args) {
-        Stack<Integer> s = new LinkedStack<Integer>();
+        ArrayStack<Integer> s = new ArrayStack<Integer>();
         s.push(4);
         s.push(3);
         s.push(9);
-        StdOut.println(s);
+        Iterator<Integer> iter = s.iterator();
+        while (iter.hasNext()) {
+            Integer i = iter.next();
+            StdOut.println(i);
+        }
+//        for (Integer i : s) {
+//            StdOut.println(i);
+//        }
     }
 
+    private class ArrayStackIterator implements Iterator<T> {
+
+        private int index;
+
+        public ArrayStackIterator() {
+            index = size - 1;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index >= 0;
+        }
+
+        @Override
+        public T next() {
+            T result = data[index];
+            index--;
+            return result;
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayStackIterator();
+    }
 }
